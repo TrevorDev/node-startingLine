@@ -8,6 +8,8 @@
   	},
 	"private": true,
 	"dependencies": {
+		"socket.io": "x.x",
+		"sequelize": "x.x",
 		"request": "x.x",
 		"thunkify": "x.x",
 		"co": "x.x",
