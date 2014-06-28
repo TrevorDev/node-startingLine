@@ -8,6 +8,7 @@
   	},
 	"private": true,
 	"dependencies": {
+		"koa-json-response": "x.x",
 		"socket.io": "x.x",
 		"sequelize": "x.x",
 		"request": "x.x",

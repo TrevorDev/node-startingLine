@@ -6,13 +6,13 @@ var serve = require('koa-static')
 var session = require('koa-session')
 var views = require('co-views')
 var parse = require('co-body')
+var jsonResp = require('koa-json-response')
 var koa = require('koa')
 var swig = require('swig')
 var https = require('https')
 var http = require('http')
 var request = require('request');
 var fs = require('fs')
-var jsonResp = require('./lib/jsonResp')
 var app = koa()
 
 //Add database
