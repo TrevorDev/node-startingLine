@@ -32,7 +32,7 @@ app.use(router(app))
 
 //PAGE ROUTES
 app.get('/', defaultPageLoad('index'))
-app.get('/public/*', serve('.'))
+app.get(/\/public\/*/, serve('.'))
 
 //API ROUTES
 //app.get('/testUser', userCtrl.getUsers)
