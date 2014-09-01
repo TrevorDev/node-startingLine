@@ -31,7 +31,14 @@
 		"co-fs": "x.x",
 		"co-busboy": "x.x",
 		"koa-send": "x.x",
-		"stripe": "x.x"
+		"koa-passport": "x.x",
+		"passport-local": "x.x",
+		"passport-facebook": "x.x",
+		"passport-twitter": "x.x",
+		"passport-google": "x.x",
+		"stripe": "x.x",
+		"koa-bodyparser": "x.x",
+		"koa-sess":"x.x"
 	},
 	"testing": "mocha"
 }
