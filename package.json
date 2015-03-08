@@ -24,7 +24,7 @@
 		"koa-route": "x.x",
 		"koa-router": "x.x",
 		"koa-static": "x.x",
-		"koa-session": "x.x",
+		"koa-generic-session": "x.x",
 		"swig": "x.x",
 		"bcryptjs": "x.x",
 		"save-to": "x.x",
