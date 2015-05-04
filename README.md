@@ -20,6 +20,7 @@ NodeJS starting skeleton
 	- npm install nodemon -g
 	- npm install mocha -g
 	- npm install bower -g
+	- npm install pm2 -g
 - Install project dependent libs(found in package.js) with:
 	- npm install
 	- bower install
@@ -27,3 +28,7 @@ NodeJS starting skeleton
 	- nodemon --harmony app.js
 
 ##Deployment:
+- Get a VM up and running on Azure or other provider
+- ssh into the machine and clone repo and perform the above steps
+- once it works as above try using pm2(https://github.com/Unitech/pm2) start app.js to run the app
+- setup git webhooks (https://developer.github.com/webhooks/) to ping your app at yoursite/deploy to autodeploy
