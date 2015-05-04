@@ -1,0 +1,11 @@
+{
+  "name": "node-startingLine",
+  "version": "0.0.0",
+  "license": "MIT",
+  "dependencies": {
+    "bootstrap": "~3.3.4",
+    "fontawesome": "~4.3.0",
+    "jquery": "~2.1.3",
+    "rivets": "~0.8.1"
+  }
+}

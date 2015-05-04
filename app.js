@@ -1,87 +1,48 @@
-var config = require('./lib/config')
-    //var database = require('./lib/database')
-var logger = require('koa-logger')
-var router = require('koa-router')
-var serve = require('koa-static')
-var session = require('koa-generic-session')
-var views = require('co-views')
-var parse = require('co-body')
-var jsonResp = require('koa-json-response')
+var http = require('http')
 var koa = require('koa')
 var swig = require('swig')
-var https = require('https')
-var http = require('http')
-var request = require('request');
-var fs = require('fs')
-var passport = require('koa-passport'),
-    LocalStrategy = require('passport-local').Strategy;
+var router = require('koa-router')
+var serve = require('koa-static')
+var views = require('co-views')
+var jsonResp = require('koa-json-response')
+var request = require('co-request')
+var parse = require('co-body')
+
+var config = {appPort: process.env.PORT || 3000}
+var render = views('view', { map: { html: 'swig' } });
 var app = koa()
-var auth = require('./lib/auth.js');
-var bodyParser = require('koa-bodyparser')
-var session = require('koa-sess')
-//Add database
-// si = database.getSequelizeInstance()
-//si.sync()
 
-//var userCtrl = require('./controller/user')
-
-//REMOVE IN PRODUCTION??
-swig.setDefaults(config.templateOptions)
-app.keys = ['your-session-secret']
-app.use(session())
-app.use(bodyParser())
-app.use(passport.initialize())
-app.use(passport.session())
+//ROUTES
 app.use(jsonResp())
 app.use(router(app))
-
-//ROUTES --------------------------------------------------------------------------------------------------------------------
-
-//AUTH
-auth.setRoutes(app);
-
-//DEFAULTS
-app.get('/', defaultPageLoad('index'))
+app.get('/', function*(){ this.body = yield render("index") })
 app.get(/\/public\/*/, serve('.'))
+app.get(/\/bower_components\/*/, serve('.'))
 
-//SECURE
-var secured = new router()
-app.use(function*(next) {
-	console.log(this.session)
-  if (this.isAuthenticated()) {
-    yield next
-  } else {
-    this.redirect('/')
-  }
+app.get('/api/get/test/:name', function *(){
+    console.log(this.params)
+    console.log(this.query)
+	return this.jsonResp(200, {hello: "world"})
 })
 
-secured.get('/account',defaultPageLoad('account'))
+app.post('/api/post/test/:name', function *(){
+    console.log(this.params)
+    console.log(this.query)
+    console.log(yield parse(this))
+	return this.jsonResp(200, {hello: "world"})
+})
 
-app.use(secured.middleware())
-
-//API ROUTES
-//app.get('/testUser', userCtrl.getUsers)
-
-//PAGE HANDLERS ---------------------------------------------------------------------------------------------------------------------
-function defaultPageLoad(pageName, requiresLogin) {
-    return function * () {
-        /*if(requiresLogin===true && !sessionHelper.isLoggedIn(this.session)){
-			this.redirect('/login')
-			return
-		}*/
-        var temp = {};
-        this.body = yield render(pageName, temp)
+app.post('/deploy', function*(){
+	//TODO filter deployment with secret and filter to only push to master (see npm gith which didnt work when i tried)
+    var exec = require('child_process').exec;
+    function puts(error, stdout, stderr) { 
+      console.log(stdout)
     }
-}
+    exec(". "+__dirname+"/deploy.sh", puts); // command to be execute
+})
 
-function render(page, template) {
-    return views(__dirname + '/view', config.templateOptions)(page, template)
-}
-
+//Start server and listen on port
 var server = http.createServer(app.callback())
-
-
-
 
 //SOCKETIO ---------------------------------------------------------------------------------------------------------------------
 var io = require('socket.io').listen(server);
@@ -94,3 +55,4 @@ io.on('connection', function(socket) {
 
 server.listen(config.appPort);
 console.log('Started ----------------------------------------------' + config.appPort)
+

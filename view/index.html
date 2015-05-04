@@ -1,41 +1,53 @@
-{% extends 'layout.html' %}
-{% block body %}
-<div class="container-wide" ng-controller="homeCtrl">
-	<form action="/login" method="post">
-    <p>
-      <label>Username:
-        <input type="text" name="username" value="test" />
-      </label>
-    </p>
-    <p>
-      <label>Password:
-        <input type="password" name="password" value="test" />
-      </label>
-    </p>
-    <p>
-      <button type="submit">Log In</button>
-    </p>
-    <p>
-      <a href="/auth/facebook">Sign in with Facebook</a> <a href="/auth/twitter">Sign in with Twitter</a> <a href="/auth/google">Sign in with Google</a>
-    </p>
-  </form>
 
-	<h1>HELLO WORLD!</h1>
-	<div ng-repeat="item in project">
-		[[item]]
-	</div>
-</div>
+{% extends 'layouts/main.html' %}
+
+{% block body %}
+    <div class="container-wide" id="app">
+    	<div class="row">
+	        <div class="col-md-2 sidebar">
+		        <ul class="nav nav-sidebar">
+		            <li rv-each-widget="widgets"><a href="#" rv-on-click="changeWidget">[[widget.name]] - [[widget.status]]</a></li>
+		          </ul>
+		    </div>
+	        <div class="col-md-10 main">
+		        <div class="well" rv-each-story="selectedWidget.stories">
+				    <button type="button" class="btn btn-default" rv-on-click="markRead"><span class="glyphicon glyphicon-remove"></span></button>
+				    <a target="_blank" rv-on-click="markRead" rv-href="story.url">[[story.title]]</a>
+			    </div>
+		    </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block script %}
-<script type="text/javascript">
-function homeCtrl($scope, $http) {
-	$scope.project = ["Hello", "World", "!"];
-}
-</script>
-
-<script src="/socket.io/socket.io.js"></script>
-<script>
-  var socket = io();
-</script>
+    <script type="text/javascript">
+        $.getJSON("/api/get/test/hello?a=5").then(function(resp){
+            console.log(resp)
+        })
+        $.post( "/api/post/test/hello?a=5", {one: 5}).then(function(resp){
+            console.log(resp)
+        })
+        
+        //setup rivits template
+    	var t = {}
+    	t.widgets = []
+        t.widgets.push({name: "a", status: "1", stories: [{title: "one", url: "http://twitter.com"}]})
+        t.widgets.push({name: "two", status: "2", stories: [{title: "other", url: "http://twitter.com"}, {title: "test2", url: "http://google.com"}]})
+        t.selectedWidget = t.widgets[0]
+        t.changeWidget = function(event, binding){
+            t.selectedWidget = binding.widget
+            console.log(t.selectedWidget.name)
+        }
+        t.markRead = function(event, binding){
+            alert(binding.story.title)
+        }
+        //bind rivits template
+		rivets.bind($('#app'), t)
+    </script>
+    
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+    //SOCKETIO
+    var socket = io();
+    </script>
 {% endblock %}

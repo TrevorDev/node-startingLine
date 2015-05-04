@@ -22,6 +22,7 @@ NodeJS starting skeleton
 	- npm install bower -g
 - Install project dependent libs(found in package.js) with:
 	- npm install
+	- bower install
 - Run the application with:
 	- nodemon --harmony app.js
 

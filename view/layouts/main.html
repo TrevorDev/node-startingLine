@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="">
+
+    <title></title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="icon" type="image/gif" href="/public/img/favicon.gif" />
+    <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/bower_components/fontawesome/css/font-awesome.min.css">
+    <script src="bower_components/rivets/dist/rivets.bundled.min.js"></script>
+    <script type="text/javascript">
+    	rivets.configure({
+
+		  // Attribute prefix in templates
+		  prefix: 'rv',
+
+		  // Preload templates with initial data on bind
+		  preloadData: true,
+
+		  // Root sightglass interface for keypaths
+		  rootInterface: '.',
+
+		  // Template delimiters for text bindings
+		  templateDelimiters: ['[[', ']]'],
+
+		  // Augment the event handler of the on-* binder
+		  handler: function(target, event, binding) {
+		    this.call(target, event, binding.view.models)
+		  }
+
+		})
+    </script>
+    <!-- Custom styles for this template -->
+    <link href="/public/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    {% block body %}{% endblock %}
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    {% block script %}{% endblock %}
+  </body>
+</html>
